@@ -1,0 +1,14 @@
+{
+  "name": "simple-scraper",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "puppeteer": "^24.2.0"
+  }
+}
