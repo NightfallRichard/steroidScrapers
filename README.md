@@ -1,100 +1,124 @@
+# Web Scraper with AI-Powered Data Extraction
 
----
-
-# Human-Like Web Scraper
-
-This project provides a web scraper that leverages human-like behavior and stealth techniques to extract table data from a target webpage. The scraper uses a headless browser approach, randomized HTTP headers, human-like delays, and simulated user interactions to reduce the chance of detection.
-
-> **Disclaimer:** Ensure that your scraping activities comply with the target website's terms of service and applicable laws.
+This project demonstrates an asynchronous web scraping tool that leverages AI (via Ollama's LLM) to extract structured data from websites. It uses the `crawl4ai` library to crawl web pages and extract table data into a JSON format using Pydantic models.
 
 ## Features
 
-- **Randomized Headers and User Agents:** Rotates through common browser headers to mimic different users.
-- **Human-Like Delays:** Introduces random delays between actions to simulate natural browsing behavior.
-- **Script Injection for Simulated Mouse Movements:** Injects a JavaScript snippet to mimic mouse movements.
-- **Proxy Support:** Uses a configurable proxy server to route requests.
-- **LLM-Based Extraction:** Uses an LLM extraction strategy (via `crawl4ai`) to extract table data as JSON.
+- 🕷️ Asynchronous web crawling
+- 🤖 LLM-powered data extraction (using Ollama's deepseek-r1:14b model)
+- 🧱 Pydantic model validation
+- 🔄 Proxy support for residential proxies
+- 📦 Caching mechanisms
+- 🖥️ Headless browser automation
+- 🧩 Chunk processing for large content
 
-## Prerequisites
+## Installation
 
-- **Python:** Version 3.7 or higher is required.
-- **Dependencies:**  
-  Install the following Python packages:
-  - `crawl4ai`
-  - `pydantic`
-  
-  You can install them with pip:
-  ```bash
-  pip install crawl4ai pydantic
-  ```
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/web-scraper-ai.git
+cd web-scraper-ai
+```
 
-## Setup and Configuration
+2. Install dependencies:
+```bash
+pip install crawl4ai pydantic asyncio python-dotenv
+```
 
-1. **Clone or Download the Project:**
+3. Install Ollama (required for local LLM processing):
+```bash
+# Follow instructions from https://ollama.ai/download
+```
 
-   Clone the repository or download the script file to your local machine.
+4. Pull the LLM model:
+```bash
+ollama pull deepseek-r1:14b
+```
 
-2. **Proxy Configuration:**
+## Usage
 
-   Update the `proxy_config` dictionary in the script with your proxy details:
-   ```python
-   proxy_config = {
-       "server": "http://your-proxy-server:port",
-       "username": "your_username",
-       "password": "your_password",
-   }
-   ```
+### Basic Configuration
+1. Create a `.env` file for environment variables:
+```env
+OPENAI_API_KEY=your_api_key_here  # Only needed if using OpenAI models
+```
 
-3. **Target URL and Extraction Settings:**
+2. Modify the script with your target URL and proxy configuration:
+```python
+URL_TO_SCRAPE = "https://your-target-website.com"
+proxy_config = {
+    "server": "http://your-proxy-server:port",
+    "username": "your-username",
+    "password": "your-password",
+}
+```
 
-   - The URL to be scraped is defined as `URL_TO_SCRAPE`. Modify this variable to change the target page.
-   - The LLM extraction strategy is set up using `LLMExtractionStrategy` in the script. Adjust the `provider`, `schema`, and `instruction` as needed.
-
-## How to Run
-
-Simply run the script using Python:
+### Running the Scraper
 ```bash
 python main.py
 ```
 
-### What the Script Does
+## Configuration Options
 
-1. **Simulated Delays and Interactions:**  
-   The script introduces a random delay and injects JavaScript to simulate a mouse movement, making the interaction more human-like.
+### LLM Extraction Strategy
+```python
+LLMExtractionStrategy(
+    provider="ollama/deepseek-r1:14b",  # Can use "openai/gpt-4" for OpenAI
+    api_token=os.getenv("OPENAI_API_KEY"),
+    schema=Product.model_json_schema(),
+    extraction_type="schema",
+    instruction="Extract all the table data into a JSON",
+    # ... other parameters
+)
+```
 
-2. **Web Crawling and Data Extraction:**  
-   The configured crawler then accesses the target URL, extracts table data, and processes it into JSON using an LLM-based extraction strategy.
+### Crawler Configuration
+```python
+CrawlerRunConfig(
+    cache_mode=CacheMode.BYPASS,
+    process_iframes=False,
+    remove_overlay_elements=True,
+    exclude_external_links=True
+)
+```
 
-3. **Output:**  
-   Extracted data is printed to the console.
+### Proxy Configuration
+```python
+proxy_config = {
+    "server": "http://proxy-server:port",
+    "username": "your-username",
+    "password": "your-password"
+}
+```
 
-## Extending the Script
+## Dependencies
 
-- **Additional Simulated Interactions:**  
-  You can extend the script to simulate scrolling, key presses, or more advanced user behaviors by injecting additional JavaScript or using other browser automation features.
-  
-- **Persistent Cookies and Sessions:**  
-  To mimic returning users, you might add functionality to save and load cookies between sessions.
-  
-- **Proxy Rotation:**  
-  For higher anonymity, consider integrating a proxy pool that rotates proxies between requests.
+- Python 3.9+
+- crawl4ai
+- pydantic
+- asyncio
+- python-dotenv
+- Ollama (for local LLM processing)
 
-## Troubleshooting
+## Contributing
 
-- **Extraction Issues:**  
-  If the JSON extraction fails, verify that the webpage's structure aligns with your extraction strategy and that the LLM extraction parameters are correctly configured.
-
-- **Proxy Problems:**  
-  Ensure that your proxy server is accessible and that the provided credentials (if any) are correct.
+Contributions are welcome! Please follow these steps:
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## License
 
-Include your project license information here.
+Distributed under the MIT License. See `LICENSE` for more information.
 
-## Disclaimer
+## Acknowledgements
 
-The techniques used in this project are for educational purposes only. Use these methods responsibly and ensure you are compliant with all relevant legal and ethical guidelines.
+- [crawl4ai](https://github.com/yourhandle/crawl4ai) - Web crawling library
+- [Ollama](https://ollama.ai/) - Local LLM processing
+- [Pydantic](https://docs.pydantic.dev/) - Data validation
 
 ---
 
-This README provides the essential information needed to set up, configure, and run the human-like web scraper without the need for an external `requirements.txt`.
+**Note:** Always ensure you have proper authorization before scraping any website. Respect robots.txt rules and website terms of service.
