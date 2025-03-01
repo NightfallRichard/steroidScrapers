@@ -54,7 +54,7 @@ This project provides a web scraper that leverages human-like behavior and steal
 
 Simply run the script using Python:
 ```bash
-python your_script_name.py
+python main.py
 ```
 
 ### What the Script Does
