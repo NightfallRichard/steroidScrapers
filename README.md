@@ -1,163 +1,125 @@
-# steroidScrapers
 
-**steroidScrapers** is a comprehensive collection of web scraping tools designed to efficiently extract data from various websites. This repository encompasses multiple scrapers, each tailored to specific data extraction tasks, ensuring versatility and performance.
+---
 
-## Table of Contents
+```markdown
+# Human-Like Web Scraper
 
-- [Overview](#overview)
-- [Features](#features)
-- [Directory Structure](#directory-structure)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Configuration](#configuration)
-- [Data Storage](#data-storage)
-- [Error Handling](#error-handling)
-- [Testing](#testing)
-- [Contributing](#contributing)
-- [License](#license)
+This repository contains a Python-based web scraper designed to mimic human-like behavior to reduce detection. The scraper utilizes randomized headers, human-like delays, and simulated mouse movements. It uses [crawl4ai](https://github.com/your-org/crawl4ai) for crawling and an LLM extraction strategy for parsing table data into JSON.
 
-## Overview
-
-The **steroidScrapers** repository is structured to provide a suite of scraping tools, each located in its respective directory. This modular approach allows users to select and deploy the scraper that best fits their specific requirements.
+> **Disclaimer:** Bypassing anti-scraping measures may violate a website's terms of service and applicable laws. Use this script responsibly and only on websites you are authorized to scrape.
 
 ## Features
 
-- **Modular Design**: Each scraper operates independently, allowing for targeted data extraction.
-- **Efficiency**: Optimized to handle large datasets with minimal resource consumption.
-- **Customization**: Easily configurable settings to adapt to various scraping needs.
-- **Error Handling**: Robust mechanisms to manage exceptions and ensure continuous operation.
-- **Data Storage**: Supports multiple data storage options, including local files and databases.
+- **Randomized Headers & User Agents:** Rotates user agents and request headers to simulate a real browser.
+- **Human-Like Delays:** Adds random delays between actions to mimic natural browsing.
+- **Script Injection:** Simulates mouse movement to reduce automation fingerprint.
+- **Proxy Support:** Uses proxy configuration for added anonymity.
+- **LLM-Based Data Extraction:** Extracts table data into JSON using an LLM extraction strategy.
 
-## Directory Structure
+## Prerequisites
 
-The repository is organized as follows:
-
-```
-steroidScrapers/
-├── scraper-on-steroids/
-│   ├── README.md
-│   ├── requirements.txt
-│   ├── scraper.py
-│   └── ...
-└── simple-scraper/
-    ├── README.md
-    ├── requirements.txt
-    ├── scraper.py
-    └── ...
-```
-
-- `scraper-on-steroids/`: Contains an advanced scraper with extended capabilities.
-- `simple-scraper/`: Contains a basic scraper for straightforward tasks.
-
-Each directory includes its own `README.md` and `requirements.txt` files, providing detailed information and dependencies specific to that scraper.
-
+- **Python 3.7+**
+- **pip** package manager
+ ```
 ## Installation
 
-To install a specific scraper, follow these steps:
-
-1. **Clone the Repository**:
+1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/NightfallRichard/steroidScrapers.git
-   cd steroidScrapers
-   ```
+   git clone https://github.com/your-username/human-like-web-scraper.git
+   cd human-like-web-scraper
+  
 
-2. **Navigate to the Scraper Directory**:
-
-   ```bash
-   cd scraper-on-steroids  # or cd simple-scraper
-   ```
-
-3. **Set Up a Virtual Environment** (optional but recommended):
+2. **Create a virtual environment (recommended):**
 
    ```bash
-   python3 -m venv venv
+   python -m venv venv
    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
    ```
 
-4. **Install Dependencies**:
+3. **Install required packages:**
+
+   Make sure you have the required packages installed. You can install them using:
 
    ```bash
    pip install -r requirements.txt
    ```
 
-## Usage
-
-To run a scraper:
-
-1. **Configure Settings**: Modify any necessary settings in the configuration file or within the script itself. Refer to the specific scraper's `README.md` for detailed instructions.
-
-2. **Execute the Scraper**:
+   _Note:_ If the `requirements.txt` file is not provided, install the necessary packages manually:
 
    ```bash
-   python scraper.py
+   pip install crawl4ai pydantic asyncio
    ```
-
-   Output data will be stored as specified in the configuration (e.g., saved to a file or database).
 
 ## Configuration
 
-Each scraper may have its own configuration parameters, such as target URLs, data fields to extract, and storage options. Consult the `README.md` within the specific scraper's directory for detailed configuration instructions.
+- **URL_TO_SCRAPE:**  
+  Update the `URL_TO_SCRAPE` variable in your script to the target website.
 
-## Data Storage
-
-Scraped data can be stored in various formats, including:
-
-- **CSV/JSON Files**: For simple storage and portability.
-- **Databases**: Integration with databases like SQLite or MongoDB for structured storage.
-
-Ensure the chosen storage method is configured correctly before running the scraper.
-
-## Error Handling
-
-Robust error handling is implemented to manage common issues such as network errors, timeouts, and unexpected data formats. Logs are generated to assist in diagnosing and resolving issues. Refer to the specific scraper's documentation for details on log files and error reporting.
-
-## Testing
-
-To maintain code quality and functionality:
-
-- **Unit Tests**: Implemented for core components. Run tests using:
-
-  ```bash
-  python -m unittest discover tests
+- **Proxy Configuration:**  
+  Modify the `proxy_config` dictionary with your proxy details:
+  
+  ```python
+  proxy_config = {
+      "server": "http://your-proxy-server:port",
+      "username": "your_username",
+      "password": "your_password",
+  }
   ```
 
-- **Continuous Integration**: Integration with CI/CD pipelines is recommended to automate testing and deployment.
+- **LLM Extraction Strategy:**  
+  Update the extraction settings such as `provider`, `instruction`, and LLM parameters as needed.
+
+## Usage
+
+To run the scraper, simply execute the Python script:
+
+```bash
+python your_script.py
+```
+
+The script will:
+
+- Wait for a random delay.
+- Inject a simulated mouse movement script.
+- Crawl the target URL.
+- Extract table data and print the JSON output.
+
+## GitHub Actions & CI
+
+If you want to run tests or automate deployments with GitHub Actions, add a workflow file (e.g., `.github/workflows/ci.yml`):
+
+```yaml
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Run scraper
+      run: python your_script.py
+```
 
 ## Contributing
 
-Contributions are welcome! To contribute:
-
-1. **Fork the Repository**: Click on the 'Fork' button at the top right of the repository page.
-
-2. **Create a New Branch**:
-
-   ```bash
-   git checkout -b feature/YourFeatureName
-   ```
-
-3. **Make Your Changes**: Implement your feature or fix.
-
-4. **Commit Changes**:
-
-   ```bash
-   git commit -m 'Add YourFeatureName'
-   ```
-
-5. **Push to Your Branch**:
-
-   ```bash
-   git push origin feature/YourFeatureName
-   ```
-
-6. **Open a Pull Request**: Navigate to the original repository and click on 'New Pull Request'.
-
-Please ensure your code adheres to the project's coding standards and includes appropriate tests.
+Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
 
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+```
 
 ---
 
-For any questions or support, please open an issue in this repository. 
+This README guide walks you through the cloning, setup, configuration, and running of the script. Customize the content as necessary to fit your repository details and additional requirements.
